@@ -37,10 +37,41 @@ auto swapMinMax(vector<int>& vec) {
 	swap(vec, minIndex, maxIndex);
 }
 
+/*
+Determine of a string has all unique characters
+*/
+
+/*
+Reverse a null-terminated string
+*/
+
+/*
+Check if a string is a permutation of the other
+*/
+
+/*
+Replace all space character in a string by %20
+Mr John Smith to Mr%20John%20Smith
+*/
+
+/*
+Compress a string and return the compressed string only if it is shorter
+aabccccaaa to a2b1c5a3
+*/
+
+/*
+Given an image represented by an NxN matrix, where each pixel in the image is 4 bytes,
+write a method to rotate the image by 90 degree, do it also in place
+*/
+
+/*
+Check if a string is the rotation of the other by using only one time the check
+if a string is a substring of another
+*/
+
+
+
 int main()
 {
-	auto vec = vector<int>{1, 2, 3, 4, 5};
-	swapMinMax(vec);
-	for (auto i : vec)
-		cout << i << endl;
+	
 }

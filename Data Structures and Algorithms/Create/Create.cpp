@@ -41,8 +41,71 @@ auto convertToBase(string strNum, int base) {
 	}
 	return value;
 }
- 
+
+/*
+Implement a hash table using an array, a linked list and a binary tree
+Insert an element in the hash table
+What is the advantages and disavantages between theses implementations?
+*/
+
+/*
+Extend an array
+*/
+
+/*
+Delete an element in a linked list
+What does happen if we replace auto headNext = head->_next; head = headNext;
+in the block if (head->_data == data)?
+Hint: Suppose in the main we have
+	auto* head = new Node(1);
+	append(head, 2);
+	deleteNode(head, 1);
+	display(head);
+*/
+class Node {
+public:
+	Node* _next = nullptr;
+	int _data;
+public:
+	Node(int data) : _data(data) {}
+};
+auto append(Node* head, int data) {
+	Node* end = new Node(data);
+	Node* node = head;
+	while (node->_next != nullptr)
+		node = node->_next;
+	node->_next = end;
+}
+auto display(Node* head) {
+	cout << head->_data << " ";
+	Node* node = head;
+	while (node->_next != nullptr) {
+		node = node->_next;
+		cout << node->_data << " ";
+	}
+}
+auto deleteNode(Node* head, int data) {
+	if (head->_data == data) {
+		auto headNext = head->_next;
+		head->_data = headNext->_data;
+		head->_next = headNext->_next;
+		delete headNext;
+		return;
+	}
+	auto node = head;
+	while (node->_next != nullptr) {
+		if (node->_next->_data == data) {
+			auto nodeToDelete = node->_next;
+			node->_next = node->_next->_next;
+			delete nodeToDelete;
+			return;
+		}
+		node = node->_next;
+	}
+	return;
+}
+
 int main()
 {
-	cout << convertToBase("10", 16);
+	
 }
