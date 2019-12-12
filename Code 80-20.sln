@@ -1,13 +1,12 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.902
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Create", "Create.vcxproj", "{FF4CA501-4896-444A-A725-3239B3F1607C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Create", "Data Structures and Algorithms\Create\Create.vcxproj", "{FF4CA501-4896-444A-A725-3239B3F1607C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SortSearch", "..\SortSearch\SortSearch.vcxproj", "{1DC3250B-36DE-4F33-98CB-5965EA076D2A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SortSearch", "Data Structures and Algorithms\SortSearch\SortSearch.vcxproj", "{1DC3250B-36DE-4F33-98CB-5965EA076D2A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Concept", "..\..\Concepts\Concept\Concept.vcxproj", "{FCEDB5E2-0E1B-4F7C-93A7-2C68F077E8FB}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Concept", "Concept\Concept.vcxproj", "{FCEDB5E2-0E1B-4F7C-93A7-2C68F077E8FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
