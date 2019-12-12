@@ -1,6 +1,7 @@
 #include "pch.h"
 #include <iostream>
 #include <vector>
+#include <list>
 
 using namespace std;
 
@@ -69,7 +70,58 @@ Check if a string is the rotation of the other by using only one time the check
 if a string is a substring of another
 */
 
+/*
+Access the kth to last element of a singly linked list
+What are the other methods using only one pointer?
+*/
 
+/*
+Remove duplicates from un unsorted linked list
+*/
+
+/*
+Delele a node in the middle of a single linked list, 
+given only access to that node
+*/
+
+/*
+Partition a linked list around a value x
+*/
+
+/*
+Add two numbers represented by two linked list
+*/
+
+/*
+Recover a corrupt linked list
+A -> B -> C -> D -> E -> C to C
+*/
+
+/*
+Check if a linked list is a palindrome
+*/
+
+/*
+Solve the problem of the Towers of Hanoi using stacks
+*/
+
+/*
+Sort the stack in acceding order (with biggest items on top)
+using at most one additional stack to hold items, but not copy
+items into array for example.
+The stack supports push, pop, peek and isEmpty operations.
+*/
+
+/*
+Iterate through nodes in a graph using Depth First Search (DFS)
+and Breadth First Search (BFS)
+Hint: Use queue to implement BFS
+*/
+
+/*
+Check if there is a route between two nodes in a directed graph
+Can you do it with decorator design pattern?
+*/
 
 int main()
 {

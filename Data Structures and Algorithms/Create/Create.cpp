@@ -105,7 +105,156 @@ auto deleteNode(Node* head, int data) {
 	return;
 }
 
+/*
+Implement a stack by an array and a linked list
+What is the advantages and disavantages of these implementations? 
+*/
+class StackFromList {
+	Node* _top = nullptr;
+public:
+	auto pop() {
+		if (_top != nullptr) {
+			auto item = _top->_data;
+			auto top = _top;
+			_top = _top->_next;
+			delete top;
+			return item;
+		}
+		return NULL;
+	}
+	auto push(int item) {
+		auto top = new Node(item);
+		top->_next = _top;
+		_top = top;
+	}
+	auto peek() { 
+		if (_top != nullptr) 
+			return _top->_data;
+		return NULL;
+	}
+};
+class Stack {
+	static const auto MAX = 1000;
+	int _top = 0;
+	int ar[MAX];
+public:
+	auto pop() {
+		if (_top > 0) {
+			--_top;
+			return ar[_top];
+		}
+		return NULL;
+	}
+	auto push(int item) {
+		if (_top < MAX) {
+			ar[_top] = item;
+			++_top;
+			return true;
+		}
+		cout << "Stack Overflow" << endl;
+		return false;
+	}
+	auto peek() { 
+		if (_top > 0) return ar[_top - 1]; 
+		return NULL;
+	}
+};
+
+/*
+Implement a queue by an array and a linked list
+What is the objectif of these lines of code?
+if (last < first + MAX) {
+	ar[last % MAX] = item;
+	++last;
+	return true;
+}
+*/
+class Queue {
+	static const int MAX = 1000;
+	int _first = 0, _last = 0;
+	int ar[MAX];
+public:
+	auto enqueue(int item) {
+		if (_last < MAX) {
+			ar[_last] = item;
+			++_last;
+			return true;
+		}
+		if (_last < _first + MAX) {
+			ar[_last % MAX] = item;
+			++_last;
+			return true;
+		}
+		cout << "Queue Overflow" << endl;
+		return false;
+	}
+	auto dequeue() {
+		if (_first < _last) {
+			++_first;
+			if (_first < MAX) return ar[_first - 1];
+			return ar[_first % MAX - 1];
+		}
+		return NULL;
+	}
+};
+class QueueFromList {
+	Node* _first = nullptr;
+	Node* _last = nullptr;
+public:
+	auto enqueue(int item) {
+		if (_last != nullptr) {
+			auto last = new Node(item);
+			_last->_next = last;
+			_last = last;
+		}
+		else {
+			_first = new Node(item);
+			_last = _first;
+		}
+	}
+	auto dequeue() {
+		if (_first != nullptr) {
+			auto item = _first->_data;
+			auto first = _first;
+			_first = _first->_next;
+			delete first;
+			return item;
+		}
+		return NULL;
+	}
+};
+
+/*
+Implement three stacks using a single array
+*/
+
+/*
+Design a stack with a min function so that its 0(1) time?
+Do it with decorator design pattern.
+*/
+
+/*
+Implement a stack which can consists of multiple stacks
+so that its size can be big without posing the constraint on the memory
+*/
+
+/*
+Implement a queue using two stacks
+*/
+
+/*
+Implement a deque structure consist of two dequeues to save dogs and cats
+It must support enqueue, dequeueAny, dequeueDog and dequeueCat
+Use build-in linked list data structure
+*/
+
+/*
+Create a data structure represent a graph with addEdge and adjacent operations
+*/
+
 int main()
 {
-	
+	QueueFromList q;
+	q.enqueue(11);
+	cout << q.dequeue() << endl;
 }
