@@ -140,13 +140,40 @@ Implement a method dispatchCall() which assigns a call
 to the first available employee
 */
 
+/*
+Calculate the nth Fibonacci number by recursive call and dynamic programming
+What is the time and space complexity of each method?
+*/
+auto fibonacci(int n) {
+	if (n == 0) return 0;
+	if (n == 1) return 1;
+	return fibonacci(n - 1) + fibonacci(n - 2);
+}
+int fib[2000]{0};
+int fibonacciCache(int n) {
+	if (n == 0) return 0;
+	if (n == 1) return 1;
+	if (fib[n] != 0) return fib[n];							// return cached result
+	fib[n] = fibonacciCache(n - 1) + fibonacciCache(n - 2);	// cache result
+	return fib[n];											// return cached result
+}
+
+/*
+Write a method to return all subset of a set
+*/
+
+/*
+Write a method to compute all permutation of a string
+*/
+
+/*
+Given an infinite number of quarters (25 cents), dimes (10 cents), nickel (5 cents)
+and pennies (1 cent) 
+Write code to calculate the number of ways of representing n cents
+*/
+
 int main()
 {
-	for (auto i = 0; i < 100; ++i) {
-		thread t(&RestaurantLock::getInstance);
-		t.detach();
-	}
-	Sleep(10000);
-	return 0;
+	cout << fibonacci(2000);
 }
 
