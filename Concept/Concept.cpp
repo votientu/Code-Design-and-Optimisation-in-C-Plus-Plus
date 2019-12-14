@@ -1,5 +1,9 @@
 #include "pch.h"
 #include <iostream>
+#include <math.h>
+#include <thread>
+#include <mutex>
+#include <Windows.h>
 
 using namespace std;
 
@@ -55,12 +59,94 @@ Swap odd and even bits in an integer with as few instructions as possible
 (e.g., bit 0 and bit 1 are swapped, bit 2 and bit 3 are swapped, and so on)
 */
 
+/*
+Check prime number
+Can you think about a better method?
+*/
+auto primeNaive(int num) {
+	if (num < 2) return false;
+	for (auto i = 2; i < num; ++i)
+		if ((num % i) == 0) return false;
+	return true;
+}
+auto prime(int num) {
+	if (num < 2) return false;
+	for (auto i = 2; i < (int) sqrt(num); ++i)
+		if ((num % i) == 0) return false;
+	return true;
+}
 
+/*
+Design a Singleton pattern and make it thread safe
+How you can test the thread safe? 
+Hint:	for (auto i = 0; i < 100; ++i) {
+			thread t(&Restaurant::getInstance);
+			t.detach();
+		}
+		Sleep(10000);
+
+		Restaurant() { Sleep(50); }
+		cout << _instance << endl;
+*/
+class Restaurant {
+private:
+	Restaurant() {}
+	static Restaurant* _instance;
+public:
+	static Restaurant* getInstance() {
+		if (_instance == nullptr)
+			_instance = new Restaurant();
+		return _instance;
+	}
+}; Restaurant* Restaurant::_instance = nullptr;
+
+mutex myMutex;
+class RestaurantLock {
+private:
+	RestaurantLock() {}
+	static RestaurantLock* _instance;
+public:
+	static RestaurantLock* getInstance() {
+		lock_guard<mutex> myLock(myMutex);
+		if (_instance == nullptr)
+			_instance = new RestaurantLock();
+		return _instance;
+	}
+}; RestaurantLock* RestaurantLock::_instance = nullptr;
+
+class RestaurantThreadSafe {
+private:
+	RestaurantThreadSafe() {}
+public:
+	static RestaurantThreadSafe* getInstance() {
+		static RestaurantThreadSafe _instance;
+		return &_instance;
+	}
+};
+
+/*
+Design Factory pattern
+*/
+
+/*
+Design classes and data structures for a generic deck of cards
+Explain how you could implement blackjack
+*/
+
+/*
+Design classes and data structures for a call center with three levels of 
+employees: respondent, manager and director
+Implement a method dispatchCall() which assigns a call 
+to the first available employee
+*/
 
 int main()
 {
-	auto num = 3;
-	updateBit(num, 1, 0);
-	cout << num;
+	for (auto i = 0; i < 100; ++i) {
+		thread t(&RestaurantLock::getInstance);
+		t.detach();
+	}
+	Sleep(10000);
+	return 0;
 }
 
