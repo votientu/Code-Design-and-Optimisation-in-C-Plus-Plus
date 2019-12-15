@@ -123,7 +123,37 @@ Check if there is a route between two nodes in a directed graph
 Can you do it with decorator design pattern?
 */
 
+/*
+Implement Bubble Sort, Selection Sort, Merge Sort, Quick Sort and Radix Sort
+*/
+
+/*
+Implement Binary Search with and without recursion
+What is the space complexity of the recursive method?
+*/
+auto binarySearch(vector<int>& a, int x) {
+	auto low = 0;
+	auto high = a.size() - 1;
+	auto mid = low;
+	while (low <= high) {
+		mid = (low + high) / 2;
+		if (a[mid] < x) low = mid + 1;
+		else if (a[mid] > x) high = mid - 1;
+		else return mid;
+	}
+	return -1;	// not found
+}
+auto binarySearchRecursive(vector<int>& a, int x, int low, int high) {
+	if (low > high) return -1;	// not found
+	
+	auto mid = (low + high) / 2;
+	if (a[mid] < x)
+		return binarySearchRecursive(a, x, mid + 1, high);
+	else if (a[mid] > x)
+		return binarySearchRecursive(a, x, low, mid - 1);
+	else return mid;
+}
+
 int main()
 {
-	
 }
