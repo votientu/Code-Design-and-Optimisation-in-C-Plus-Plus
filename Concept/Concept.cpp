@@ -190,6 +190,8 @@ What happen if we declare virtual void aboutMe() in the Person class?
 Hint: What does the pointer a is in compile time and in run-time in 
 this allocation: Person* a = new Student();
 What is the objectif of pure virtual function?
+In the virtual context, should the destructor be declared virtual?
+Hint: Try this code Person* a = new Student();	a->aboutMe(); delete a;
 */
 const int NAME_SIZE = 80;
 class Person {
@@ -200,6 +202,9 @@ public:
 		cout << "I am a person" << endl;;
 	}
 	virtual bool addCourse(string s) = 0;
+	virtual ~Person() {
+		cout << "Deleting a person" << endl;
+	}
 };
 class Student : public Person {
 public:
@@ -210,13 +215,25 @@ public:
 		cout << "Added course " << s << " to student." << endl;
 		return true;
 	}
+	~Student() {
+		cout << "Deleting a student" << endl;
+	}
 };
+
+/*
+Write a function with default value
+Why should default values are on the right?
+*/
+auto increase(int a, int b = 5) {
+	return a + b;
+}
+
+/*
+Write an overloading operator 
+*/
 
 int main()
 {
-	Person* a = new Student();	
-	a->aboutMe(); 
-	a->addCourse("History");
-	delete a;
+	cout << increase(5);
 }
 
