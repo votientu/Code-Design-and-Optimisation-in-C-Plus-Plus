@@ -1,8 +1,10 @@
 #include "pch.h"
 #include <iostream>
+#include <string>
 #include <math.h>
 #include <thread>
 #include <mutex>
+#include <memory>
 #include <Windows.h>
 
 using namespace std;
@@ -172,8 +174,49 @@ and pennies (1 cent)
 Write code to calculate the number of ways of representing n cents
 */
 
+/*
+Write test code for addSorted function
+*/
+
+/*
+Write a basis inheritance code
+Forget about virtual keyword, what happen in these codes:
+Person* a = new Student();	a->aboutMe(); delete a;
+Student* a = new Student();	a->aboutMe(); delete a;
+How to let the program handle delete automatically?
+What is the difference between 
+auto a = make_shared<Student>(); and auto a = make_unique<Student>();
+What happen if we declare virtual void aboutMe() in the Person class?
+Hint: What does the pointer a is in compile time and in run-time in 
+this allocation: Person* a = new Student();
+What is the objectif of pure virtual function?
+*/
+const int NAME_SIZE = 80;
+class Person {
+	int id;
+	char name[NAME_SIZE];
+public:
+	virtual void aboutMe() {
+		cout << "I am a person" << endl;;
+	}
+	virtual bool addCourse(string s) = 0;
+};
+class Student : public Person {
+public:
+	void aboutMe() {
+		cout << "I am a student" << endl;
+	}
+	bool addCourse(string s) {
+		cout << "Added course " << s << " to student." << endl;
+		return true;
+	}
+};
+
 int main()
 {
-	cout << fibonacci(2000);
+	Person* a = new Student();	
+	a->aboutMe(); 
+	a->addCourse("History");
+	delete a;
 }
 
