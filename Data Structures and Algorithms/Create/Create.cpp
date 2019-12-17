@@ -49,6 +49,12 @@ What is the advantages and disavantages between theses implementations?
 */
 
 /*
+Compare hash table and STL map
+If the number of inputs is small, which data structure options can be used
+instead of a hash table?
+*/
+
+/*
 Extend an array
 */
 

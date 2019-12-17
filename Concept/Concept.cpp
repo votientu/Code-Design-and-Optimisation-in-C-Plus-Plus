@@ -1,10 +1,13 @@
 #include "pch.h"
 #include <iostream>
 #include <string>
+#include <vector>
 #include <math.h>
+
 #include <thread>
 #include <mutex>
 #include <memory>
+
 #include <Windows.h>
 
 using namespace std;
@@ -192,6 +195,7 @@ this allocation: Person* a = new Student();
 What is the objectif of pure virtual function?
 In the virtual context, should the destructor be declared virtual?
 Hint: Try this code Person* a = new Student();	a->aboutMe(); delete a;
+What is the difference between the deep copy and shallow copy?
 */
 const int NAME_SIZE = 80;
 class Person {
@@ -232,8 +236,32 @@ auto increase(int a, int b = 5) {
 Write an overloading operator 
 */
 
+/*
+What is the difference between pointer and reference?
+How many bytes a reference and a pointer takes in the memory?
+*/
+int* p = new int(7); int* q = p;
+int a = 5; int& b = a;
+int* ar = new int[2];
+
+/*
+Write a template code
+What is the advantage and disavantage of using template?
+Hint: Will the compiler generate all code versions for different input types
+*/
+template <class T>
+auto printVec(vector<T>& vec) {
+	for (auto e : vec) cout << e << " ";
+	cout << endl;
+}
+
+/*
+Write a smart pointer class
+*/
+
 int main()
 {
-	cout << increase(5);
+	auto dvec = vector<double>{ 1.2, 2.1, 3.3 };
+	printVec(dvec);
 }
 
