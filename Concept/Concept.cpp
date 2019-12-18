@@ -146,6 +146,10 @@ to the first available employee
 */
 
 /*
+Design a multi-thread program with lock, mutex
+*/
+
+/*
 Calculate the nth Fibonacci number by recursive call and dynamic programming
 What is the time and space complexity of each method?
 */
