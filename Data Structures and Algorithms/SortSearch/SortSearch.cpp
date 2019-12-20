@@ -40,7 +40,12 @@ auto swapMinMax(vector<int>& vec) {
 
 /*
 Determine of a string has all unique characters
+What is the difference between the ASCII and Unicode string?
 */
+auto isUniqueChars(const string& s) {
+	if (s.size() > 256) return false;
+
+}
 
 /*
 Reverse a null-terminated string
