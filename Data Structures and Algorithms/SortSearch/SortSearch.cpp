@@ -1,16 +1,18 @@
 #include "pch.h"
+
 #include <iostream>
+
+#include <algorithm>	/* To compare some of my funtions to STL functions */
+
 #include <vector>
 #include <list>
-
-using namespace std;
 
 /*
 Swap the minimum and maximum element in an interger array
 What is the advantage and disavantage of making four functions with different 
 objectives?
 */
-auto getMinIndex(const vector<int>& vec) {
+auto getMinIndex(const std::vector<int>& vec) {
 	if (vec.empty()) return -1;
 	auto minIndex = 0;
 	for (auto i = 0; i < vec.size(); ++i)
@@ -18,7 +20,7 @@ auto getMinIndex(const vector<int>& vec) {
 			minIndex = i;
 	return minIndex;
 }
-auto getMaxIndex(const vector<int>& vec) {
+auto getMaxIndex(const std::vector<int>& vec) {
 	if (vec.empty()) return -1;
 	auto maxIndex = 0;
 	for (auto i = 0; i < vec.size(); ++i)
@@ -26,13 +28,13 @@ auto getMaxIndex(const vector<int>& vec) {
 			maxIndex = i;
 	return maxIndex;
 }
-auto swap(vector<int>& vec, int m, int n) {
+auto swap(std::vector<int>& vec, int m, int n) {
 	if (m < 0 || n < 0) return;
 	auto temp = vec[m];
 	vec[m] = vec[n];
 	vec[n] = temp;
 }
-auto swapMinMax(vector<int>& vec) {
+auto swapMinMax(std::vector<int>& vec) {
 	auto minIndex = getMinIndex(vec);
 	auto maxIndex = getMaxIndex(vec);
 	swap(vec, minIndex, maxIndex);
@@ -42,14 +44,47 @@ auto swapMinMax(vector<int>& vec) {
 Determine of a string has all unique characters
 What is the difference between the ASCII and Unicode string?
 */
-auto isUniqueChars(const string& s) {
+auto isUniqueChars(const std::string& s) {
+	/* Suppose dealing with an ASCII string where each character 
+	is encoded by one byte */
 	if (s.size() > 256) return false;
 
+	/* Use an array to track the presence of characters */
+	bool isPresent[256]{false};
+	for (auto i = 0; i < s.size(); ++i) {
+		if (isPresent[s.at(i)])
+			return false;
+		else isPresent[s.at(i)] = true;
+	}
+
+	return true;	/* No duppliation */
 }
 
 /*
 Reverse a null-terminated string
+How can you do it using STL?
+Answer: char s[] = "My string"; std::reverse(&s[0], &s[9]);
 */
+auto reverse(char* s) {
+	/* Find the end of the string */
+	char *end = s;
+	if (s) {
+		while (*end)	/* end points to '\0' */
+			++end;
+		--end;			/* end points to the character before '\0' */
+
+		/* Swap the start and the end of the string
+		then increase start by 1 and decrease end by 1 */
+		char *start = s;
+		char temp;
+		while (start < end) {
+			temp = *start;
+			*start++ = *end;
+			*end-- = temp;
+		}
+	}
+}
+
 
 /*
 Check if a string is a permutation of the other
@@ -136,7 +171,7 @@ Implement Bubble Sort, Selection Sort, Merge Sort, Quick Sort and Radix Sort
 Implement Binary Search with and without recursion
 What is the space complexity of the recursive method?
 */
-auto binarySearch(vector<int>& a, int x) {
+auto binarySearch(std::vector<int>& a, int x) {
 	auto low = 0;
 	auto high = a.size() - 1;
 	auto mid = low;
@@ -148,7 +183,7 @@ auto binarySearch(vector<int>& a, int x) {
 	}
 	return -1;	// not found
 }
-auto binarySearchRecursive(vector<int>& a, int x, int low, int high) {
+auto binarySearchRecursive(std::vector<int>& a, int x, int low, int high) {
 	if (low > high) return -1;	// not found
 	
 	auto mid = (low + high) / 2;
@@ -161,4 +196,9 @@ auto binarySearchRecursive(vector<int>& a, int x, int low, int high) {
 
 int main()
 {
+	char s[] = "Tien Tu";
+	//reverse(s);
+	std::reverse(&s[0], &s[7]);
+	std::cout << s;
+	return 0;
 }
