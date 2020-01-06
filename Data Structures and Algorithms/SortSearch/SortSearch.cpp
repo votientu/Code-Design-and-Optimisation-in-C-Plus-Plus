@@ -6,6 +6,7 @@
 
 #include <vector>
 #include <list>
+#include <string>
 
 /*
 Swap the minimum and maximum element in an interger array
@@ -88,17 +89,126 @@ auto reverse(char* s) {
 
 /*
 Check if a string is a permutation of the other
+Is it case sensitive, is the space counts?
 */
+/* Sort then compare */
+auto sort(std::string& s) {
+	std::sort(s.begin(), s.end());
+}
+auto permuatation_sorted(const std::string& s1, const std::string& s2) {
+	return s1 == s2;
+}
+/* Create an array which counts all letters */
+auto permutation(const std::string& s1, const std::string& s2) {
+	int letters[256]{};		// assume ASCII decode
+	
+	if (s1.size() != s2.size())
+		return false;
+
+	/* count letters in the s1 */
+	for (auto i = 0; i < s1.size(); ++i)
+		++letters[s1.at(i)];
+
+	/* check letters in the s2 */
+	for (auto i = 0; i < s2.size(); ++i)
+		if (letters[s2.at(i)]-- == 0)
+			return false;
+
+	return true;	/* s2 is a permutation of s1 */
+}
 
 /*
 Replace all space character in a string by %20
 Mr John Smith to Mr%20John%20Smith
+Have I do this operation in place?
+What is the problem with this code for (int i = size - 1; i >= 0; --i) ?
 */
+/* Count string size then replace ' ' by "%20" from the end */
+auto replaceSpaces(std::string& s) {
+	auto spaceCount = 0;
+	const auto size = s.size();
+	for (auto i = 0; i < size; ++i)
+		if (s.at(i) == ' ')
+			++spaceCount;
+	const auto newSize = size + spaceCount * 2;
+	
+	auto end = std::string(newSize - size, '?');
+	s.append(end);
+	auto pos = newSize - 1;
+	for (int i = size - 1; i >= 0; --i)
+		if (s.at(i) == ' ') {
+			s.at(pos--) = '0';
+			s.at(pos--) = '2';
+			s.at(pos--) = '%';
+		}
+		else
+			s.at(pos--) = s.at(i);
+}
+
 
 /*
 Compress a string and return the compressed string only if it is shorter
-aabccccaaa to a2b1c5a3
+aabccccaaa to a2b1c4a3
+How about the time complexity if the string is long and not compressible? 
+Hint: critical operation myCompress.append(temp);
 */
+auto compress(const std::string& s) {
+	std::string myCompress{};
+	char letter;
+	auto count = 0;		/* count of repeated characters */
+	for (auto i = 0; i < s.size(); ++i) {
+		if (i == 0)
+			letter = s.at(i);
+
+		if (s.at(i) == letter)
+			++count;
+		else {
+			/* write the letter and count to myCompress, 
+			increase size by the number of written characters */
+			auto temp = letter + std::to_string(count);
+			myCompress.append(temp);
+			
+			/* work on this distinct letter */
+			letter = s.at(i);
+			count = 1;
+		}
+
+		if (i == s.size() - 1) {
+			auto temp = letter + std::to_string(count);
+			myCompress.append(temp);
+		}
+	}
+
+	/* return myCompress if its size is smaller than the size of s */
+	if (myCompress.size() < s.size())
+		return myCompress;
+	else
+		return s;
+}
+/* Check if the string is compressible before creating compressed string */
+auto compressSize(const std::string& s) {
+	char letter;
+	auto newSize = 0;
+	for (auto i = 0; i < s.size(); ++i) {
+		if (i == 0)
+			letter = s.at(i);
+		if (s.at(i) != letter) {
+			newSize += 2;
+			letter = s.at(i);
+		}
+		if (i == s.size() - 1)
+			newSize += 2;
+	}
+	return newSize;
+}
+auto compressSafe(const std::string& s) {
+	/* Check if the string is compressible */
+	auto newSize = compressSize(s);
+	if (newSize >= s.size())
+		return s;
+	/* Compress the string */
+	return s;
+}
 
 /*
 Given an image represented by an NxN matrix, where each pixel in the image is 4 bytes,
@@ -196,9 +306,7 @@ auto binarySearchRecursive(std::vector<int>& a, int x, int low, int high) {
 
 int main()
 {
-	char s[] = "Tien Tu";
-	//reverse(s);
-	std::reverse(&s[0], &s[7]);
-	std::cout << s;
+	std::string s = "abc";
+	std::cout << compressSize(s);
 	return 0;
 }
