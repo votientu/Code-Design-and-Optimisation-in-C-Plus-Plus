@@ -1,0 +1,2 @@
+The "Runner" Technique 
+The "runner" (or second pointer) technique is used in many linked list problems. It means that you iterate through the linked list with two pointers simultaneously, with one ahead of the other. The "fast" pointer might be ahead of by a fixed amount, or might be hopping multiples elements for each element that the "slow" pointer iterates through. [Cracking the Coding Interview, Fifth Edition, Gayle Laakmann McDowell]
