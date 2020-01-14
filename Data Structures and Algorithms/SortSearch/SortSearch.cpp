@@ -163,12 +163,12 @@ auto compress(const std::string& s) {
 		if (s.at(i) == letter)
 			++count;
 		else {
-			/* write the letter and count to myCompress, 
+			/* write the old letter and count to myCompress, 
 			increase size by the number of written characters */
 			auto temp = letter + std::to_string(count);
 			myCompress.append(temp);
 			
-			/* work on this distinct letter */
+			/* restart the count on this new letter */
 			letter = s.at(i);
 			count = 1;
 		}
@@ -206,8 +206,40 @@ auto compressSafe(const std::string& s) {
 	auto newSize = compressSize(s);
 	if (newSize >= s.size())
 		return s;
+	
 	/* Compress the string */
-	return s;
+	std::string myCompress(newSize, ' ');
+	char letter;
+	auto count = 0;		/* count of repeated characters */
+	auto posNext = 0;	/* next position to write */
+	for (auto i = 0; i < s.size(); ++i) {
+		if (i == 0)
+			letter = s.at(i);
+
+		if (s.at(i) == letter)
+			++count;
+		else {
+			/* write the old letter and count to myCompress,
+			increase size by the number of written characters */
+			auto temp = letter + std::to_string(count);
+			myCompress.insert(posNext, temp);
+
+			/* restart the count on this new letter */
+			letter = s.at(i);
+			posNext += 2;
+			count = 1;
+		}
+
+		if (i == s.size() - 1) {
+			auto temp = letter + std::to_string(count);
+			if (posNext + 2 == newSize)		// second check
+				myCompress.insert(posNext, temp);
+			else
+				return s;
+		}
+	}
+
+	return myCompress;
 }
 
 /*
@@ -306,7 +338,7 @@ auto binarySearchRecursive(std::vector<int>& a, int x, int low, int high) {
 
 int main()
 {
-	std::string s = "abc";
-	std::cout << compressSize(s);
+	std::string s = "aabbbcc";
+	std::cout << compressSafe(s);
 	return 0;
 }
