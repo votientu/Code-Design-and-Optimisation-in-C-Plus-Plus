@@ -246,7 +246,50 @@ auto compressSafe(const std::string& s) {
 Given an image represented by an NxN matrix, where each pixel in the image is 4 bytes,
 write a method to rotate the image by 90 degree, do it also in place
 */
+auto rotate(int **matrix, int N) {
+	for (auto layer = 0; layer < (int) N / 2; ++layer) {
+		auto last = N - 1 - layer;
+		for (auto i = layer; i < last; ++i) {
+			auto offset = i - layer;
+			// save top
+			auto top = matrix[layer][i];
 
+			// left to top
+			matrix[layer][i] = matrix[last - i][layer];
+
+			// bottom to left
+			matrix[last - i][layer] = matrix[last][last - offset];
+
+			// right to bottom
+			matrix[last][last - offset] = matrix[i][last];
+
+			// top to right
+			matrix[i][last] = top;
+		}
+	} 
+}
+auto print(int **matrix, int rows, int cols) {
+	for (auto r = 0; r < rows; ++r) {
+		for (auto c = 0; c < cols - 1; ++c)
+			std::cout << matrix[r][c] << " ";
+		std::cout << matrix[r][cols-1] << std::endl;
+	}
+}
+auto assign(int **matrix, int rows, int cols) {
+	for (auto r = 0; r < rows; ++r)
+		for (auto c = 0; c < cols; ++c)
+			matrix[r][c] = r * 4 + c;
+}
+auto create(int rows, int cols) {
+	int** matrix = new int*[rows];
+	for (int r = 0; r < rows; ++r)
+		matrix[r] = new int[cols];
+	return matrix;
+}
+auto free(int **matrix, int rows) {
+	for (int r = 0; r < rows; ++r)
+		delete matrix[r];
+}
 /*
 Check if a string is the rotation of the other by using only one time the check
 if a string is a substring of another
@@ -338,7 +381,13 @@ auto binarySearchRecursive(std::vector<int>& a, int x, int low, int high) {
 
 int main()
 {
-	std::string s = "aabbbcc";
-	std::cout << compressSafe(s);
+	// create matrix
+	auto rows = 10000;
+	auto cols = 10000;
+	auto matrix = create(rows, cols);
+	assign(matrix, rows, cols);
+	rotate(matrix, rows);
+	free(matrix, rows);
+	std::cout << "free memory";
 	return 0;
 }
