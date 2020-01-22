@@ -290,15 +290,34 @@ auto free(int **matrix, int rows) {
 	for (int r = 0; r < rows; ++r)
 		delete matrix[r];
 }
-/*
-Check if a string is the rotation of the other by using only one time the check
-if a string is a substring of another
-*/
 
+class Node {
+public:
+	Node* _next = nullptr;
+	int _data;
+public:
+	Node(int data) : _data(data) {}
+};
+auto append(Node* head, int data) {
+	Node* end = new Node(data);
+	Node* node = head;
+	while (node->_next != nullptr)
+		node = node->_next;
+	node->_next = end;
+}
+auto display(Node* head) {
+	std::cout << head->_data << " ";
+	Node* node = head;
+	while (node->_next != nullptr) {
+		node = node->_next;
+		std::cout << node->_data << " ";
+	}
+}
 /*
 Access the kth to last element of a singly linked list
 What are the other methods using only one pointer?
 */
+
 
 /*
 Remove duplicates from un unsorted linked list
@@ -381,13 +400,9 @@ auto binarySearchRecursive(std::vector<int>& a, int x, int low, int high) {
 
 int main()
 {
-	// create matrix
-	auto rows = 10000;
-	auto cols = 10000;
-	auto matrix = create(rows, cols);
-	assign(matrix, rows, cols);
-	rotate(matrix, rows);
-	free(matrix, rows);
-	std::cout << "free memory";
+	auto head = new Node(10);
+	append(head, 11);
+	append(head, 13);
+	display(head);
 	return 0;
 }

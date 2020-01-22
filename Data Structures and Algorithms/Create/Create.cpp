@@ -4,8 +4,6 @@
 #include <string>
 #include <cmath>
 
-using namespace std;
-
 /*
 Create a data structure to calculate:
 A*x^a + B*x^b + C*x^c ...
@@ -16,7 +14,7 @@ struct ExpressionTerm {
 	double coefficient;
 	double exponent;
 };
-auto sum(vector<ExpressionTerm> expr1, vector<ExpressionTerm> expr2) {}
+auto sum(std::vector<ExpressionTerm> expr1, std::vector<ExpressionTerm> expr2) {}
 
 /*
 Convert a string number to number
@@ -31,7 +29,7 @@ auto digitToValue(const char& c) {
 	if (c >= 'a' && c <= 'f') return c - 'a' + 10;
 	return -1;
 }
-auto convertToBase(string strNum, int base) {
+auto convertToBase(std::string strNum, int base) {
 	if (base < 2 || (base > 10 && base != 16)) return -1;
 	auto value = 0;
 	for (auto i = strNum.length(); i > 0; --i) {
@@ -83,11 +81,11 @@ auto append(Node* head, int data) {
 	node->_next = end;
 }
 auto display(Node* head) {
-	cout << head->_data << " ";
+	std::cout << head->_data << " ";
 	Node* node = head;
 	while (node->_next != nullptr) {
 		node = node->_next;
-		cout << node->_data << " ";
+		std::cout << node->_data << " ";
 	}
 }
 auto deleteNode(Node* head, int data) {
@@ -157,7 +155,7 @@ public:
 			++_top;
 			return true;
 		}
-		cout << "Stack Overflow" << endl;
+		std::cout << "Stack Overflow" << std::endl;
 		return false;
 	}
 	auto peek() { 
@@ -191,7 +189,7 @@ public:
 			++_last;
 			return true;
 		}
-		cout << "Queue Overflow" << endl;
+		std::cout << "Queue Overflow" << std::endl;
 		return false;
 	}
 	auto dequeue() {
@@ -260,7 +258,5 @@ Create a data structure represent a graph with addEdge and adjacent operations
 
 int main()
 {
-	QueueFromList q;
-	q.enqueue(11);
-	cout << q.dequeue() << endl;
+	
 }
