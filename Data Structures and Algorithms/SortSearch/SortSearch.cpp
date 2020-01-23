@@ -298,12 +298,17 @@ public:
 public:
 	Node(int data) : _data(data) {}
 };
-auto append(Node* head, int data) {
+Node* append(Node* node, int data) {
+	/* node can be a head or another node in the list
+	   optimal way: node is the last node */
 	Node* end = new Node(data);
-	Node* node = head;
 	while (node->_next != nullptr)
 		node = node->_next;
 	node->_next = end;
+	return end;
+}
+Node* append(Node* node, Node* next) {
+
 }
 auto display(Node* head) {
 	std::cout << head->_data << " ";
@@ -312,12 +317,33 @@ auto display(Node* head) {
 		node = node->_next;
 		std::cout << node->_data << " ";
 	}
+	std::cout << std::endl;
 }
 /*
 Access the kth to last element of a singly linked list
 What are the other methods using only one pointer?
+Traverse the linked list by two pointers, who are k elements one to another.
+So, when one arrives to the last element, the other is the kth to last.
 */
+Node* kthToLast(Node* head, unsigned int k) {
+	auto node = head;
+	auto nodeFast = head;
 
+	/* Move nodeFast by k elements */
+	for (auto i = 0; i < k; ++i)
+		if (nodeFast->_next != nullptr)
+			nodeFast = nodeFast->_next;
+		else 
+			return nullptr;	// list has less than k + 1 elements
+
+	/* Move both node and nodeFast */
+	while (nodeFast->_next != nullptr) {
+		node = node->_next;
+		nodeFast = nodeFast->_next;
+	}
+
+	return node;
+}
 
 /*
 Remove duplicates from un unsorted linked list
@@ -326,11 +352,45 @@ Remove duplicates from un unsorted linked list
 /*
 Delele a node in the middle of a single linked list, 
 given only access to that node
+Copy the next node to the given node then delete the next node
 */
+auto deleteNode(Node* node) {
+	if (node == nullptr || node->_next == nullptr)
+		return false;	// Can't delete this node
+	else {				// Delete this node
+		auto next = node->_next;
+		node->_data = next->_data;
+		node->_next = next->_next;
+		delete next;
+		return true;
+	}
+}
 
 /*
 Partition a linked list around a value x
+Iterate through the list, insert elements into a smaller and bigger list
+in function of its value
 */
+auto* partition(Node* head, int x) {
+	Node* smallerStart = nullptr;
+	Node* smallerEnd = nullptr;
+	Node* biggerStart = nullptr;
+	Node* biggerEnd = nullptr;
+
+	auto node = head;
+	while (node != nullptr) {
+		auto next = node->_next;
+		node->_next = nullptr;
+		if (node->_data < x) {	// insert into the smaller list
+			if (smallerStart == nullptr) {
+				smallerStart = node;
+				smallerEnd = node;
+			}
+			else
+				smallerEnd = append(smallerEnd, node);
+		}
+	}
+}
 
 /*
 Add two numbers represented by two linked list
@@ -401,8 +461,19 @@ auto binarySearchRecursive(std::vector<int>& a, int x, int low, int high) {
 int main()
 {
 	auto head = new Node(10);
-	append(head, 11);
-	append(head, 13);
+
+	auto end = append(head, 11);
+	end = append(head, 14);
+	end = append(head, 15);
+	end = append(head, 19);
+	end = append(head, 21);
+	end = append(head, 23);
+	append(head, 27);
+
 	display(head);
+
+	if (deleteNode(end))
+		display(head);
+
 	return 0;
 }
