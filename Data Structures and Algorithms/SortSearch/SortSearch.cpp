@@ -307,8 +307,13 @@ Node* append(Node* node, int data) {
 	node->_next = end;
 	return end;
 }
-Node* append(Node* node, Node* next) {
-
+Node* append(Node* end, Node* aHead) {
+	if (aHead != nullptr) {
+		end->_next = aHead;
+		return aHead;
+	}
+	else
+		return end;
 }
 auto display(Node* head) {
 	std::cout << head->_data << " ";
@@ -346,10 +351,6 @@ Node* kthToLast(Node* head, unsigned int k) {
 }
 
 /*
-Remove duplicates from un unsorted linked list
-*/
-
-/*
 Delele a node in the middle of a single linked list, 
 given only access to that node
 Copy the next node to the given node then delete the next node
@@ -371,7 +372,7 @@ Partition a linked list around a value x
 Iterate through the list, insert elements into a smaller and bigger list
 in function of its value
 */
-auto* partition(Node* head, int x) {
+Node* partition(Node* head, int x) {
 	Node* smallerStart = nullptr;
 	Node* smallerEnd = nullptr;
 	Node* biggerStart = nullptr;
@@ -381,20 +382,31 @@ auto* partition(Node* head, int x) {
 	while (node != nullptr) {
 		auto next = node->_next;
 		node->_next = nullptr;
-		if (node->_data < x) {	// insert into the smaller list
+		if (node->_data < x) 	// insert into the smaller list
 			if (smallerStart == nullptr) {
 				smallerStart = node;
 				smallerEnd = node;
 			}
 			else
 				smallerEnd = append(smallerEnd, node);
-		}
-	}
-}
+		else 					// insert into the bigger list
+			if (biggerStart == nullptr) {
+				biggerStart = node;
+				biggerEnd = node;
+			}
+			else
+				biggerEnd = append(biggerEnd, node);
 
-/*
-Add two numbers represented by two linked list
-*/
+		node = next;
+	}
+
+	/* Merge the smaller and bigger lists */
+	if (smallerStart == nullptr)
+		return biggerStart;
+
+	append(smallerEnd, biggerStart);
+	return smallerStart;
+}
 
 /*
 Recover a corrupt linked list
@@ -463,17 +475,14 @@ int main()
 	auto head = new Node(10);
 
 	auto end = append(head, 11);
-	end = append(head, 14);
-	end = append(head, 15);
 	end = append(head, 19);
-	end = append(head, 21);
+	end = append(head, 15);
+	end = append(head, 14);
+	end = append(head, 8);
 	end = append(head, 23);
 	append(head, 27);
 
-	display(head);
-
-	if (deleteNode(end))
-		display(head);
+	display(head);	
 
 	return 0;
 }
