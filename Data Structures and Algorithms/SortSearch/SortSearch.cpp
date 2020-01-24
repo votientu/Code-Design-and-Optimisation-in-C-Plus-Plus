@@ -7,6 +7,7 @@
 #include <vector>
 #include <list>
 #include <string>
+#include <stack>
 
 /*
 Swap the minimum and maximum element in an interger array
@@ -411,11 +412,89 @@ Node* partition(Node* head, int x) {
 /*
 Recover a corrupt linked list
 A -> B -> C -> D -> E -> C to C
+Runner technique: a slow pointer moves by 1, a fast pointer moves by 2
+they will meet at the loopSize element from the head
 */
+Node* findLoopStart(Node* head) {
+	auto slow = head, fast = head;
+
+	/* Find the meeting point which is the loopSize element from the head */
+	while (fast != nullptr && fast->_next != nullptr) {
+		slow = slow->_next;
+		fast = fast->_next->_next;
+		if (slow == fast)	// meeting point found
+			break;
+	}
+
+	/* Check if ending the while loop with nullptr condition, therefore no loop */
+	if (fast == nullptr || fast->_next == nullptr)
+		return nullptr;
+
+	/* A the distance from head and fast to the beginning of the loop are equal, 
+	   find this node by setting slow to head and moving slow and fast by 1 
+	   ultil they meet */
+	slow = head;
+	while (slow != fast) {
+		slow = slow->_next;
+		fast = fast->_next;
+	}
+
+	// Boot now point to the start of the loop
+	return fast;
+}
 
 /*
 Check if a linked list is a palindrome
+Iterate through the list by two pointer, the slow moves 1 and fast moves 2
+each step.
+Push elements of the slow pointer into a stack until the middle of the list
+then move the slow pointer by 1 and compare to element poped from stack
+How to do it by reversing the list?
 */
+auto isPalindrome(Node* head) {
+	auto slow = head, fast = head;
+	auto myStack = std::stack<int>();
+
+	/* Move slow to the middle of the list and push elements to the stack */
+	while (fast != nullptr && fast->_next != nullptr) {
+		myStack.push(slow->_data);
+		slow = slow->_next;
+		fast = fast->_next->_next;
+	}
+	/* If the list has odd number of elements, skip the middle element */
+	if (fast != nullptr)
+		slow = slow->_next;
+
+	/* Advance slow and compare elements to the ones in the stack */
+	while (slow != nullptr) {
+		if (slow->_data != myStack.top())
+			return false;
+		myStack.pop();
+		slow = slow->_next;
+	}
+
+	/* The list is palindrome */
+	return true;
+}
+auto isPalindromeReverse(const std::list<int>& myList) {
+	/* Create the reversed list */
+	std::list<int> reversedList(myList);
+	reversedList.reverse();
+
+	/* Compare the tow lists until the middle element */
+	auto size = myList.size();
+	auto itMy = myList.begin();
+	auto itReversed = reversedList.begin();
+	for (auto i = 0; i < size / 2; ++i) {
+		if (*itMy != *itReversed)
+			return false;
+		++itMy;
+		++itReversed;
+	}
+
+	/* myList is palindrome */
+	return true;
+}
 
 /*
 Solve the problem of the Towers of Hanoi using stacks
@@ -472,17 +551,5 @@ auto binarySearchRecursive(std::vector<int>& a, int x, int low, int high) {
 
 int main()
 {
-	auto head = new Node(10);
-
-	auto end = append(head, 11);
-	end = append(head, 19);
-	end = append(head, 15);
-	end = append(head, 14);
-	end = append(head, 8);
-	end = append(head, 23);
-	append(head, 27);
-
-	display(head);	
-
 	return 0;
 }

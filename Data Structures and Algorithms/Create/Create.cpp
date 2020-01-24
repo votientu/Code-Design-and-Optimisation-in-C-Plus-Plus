@@ -230,6 +230,12 @@ public:
 
 /*
 Implement three stacks using a single array
+Implement stacks of fixed sizes
+auto stackSize = 100;
+auto buffer = new int[stackSize * 3];
+int stackPointer[3] = { -1, -1, -1 };
+How to implement these stacks with flexible sizes? 
+Hint: shift element if stack size excess circular array 
 */
 
 /*
@@ -258,5 +264,5 @@ Create a data structure represent a graph with addEdge and adjacent operations
 
 int main()
 {
-	
+
 }
