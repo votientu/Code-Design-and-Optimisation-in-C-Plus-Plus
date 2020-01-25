@@ -1,6 +1,7 @@
 #include "pch.h"
 #include <iostream>
 #include <vector>
+#include <stack>
 #include <string>
 #include <cmath>
 
@@ -235,14 +236,14 @@ auto stackSize = 100;
 auto buffer = new int[stackSize * 3];
 int stackPointer[3] = { -1, -1, -1 };
 How to implement these stacks with flexible sizes? 
-Hint: shift element if stack size excess circular array 
+Hint: shift element if stack size exceeds, circular array 
 */
 
 /*
 Design a stack with a min function so that its 0(1) time?
 Do it with decorator design pattern.
 */
-
+ 
 /*
 Implement a stack which can consists of multiple stacks
 so that its size can be big without posing the constraint on the memory
@@ -264,5 +265,13 @@ Create a data structure represent a graph with addEdge and adjacent operations
 
 int main()
 {
+	std::vector<int> vec(1000000, 10);
+	std::cout << vec.size() << std::endl;
 
+	std::stack<int, std::vector<int>> myStack(vec);
+	myStack.pop();
+
+	std::cout << vec.size() << std::endl;
+	std::cout << myStack.size() << std::endl;
+	return 0;
 }

@@ -498,9 +498,86 @@ auto isPalindromeReverse(const std::list<int>& myList) {
 
 /*
 Solve the problem of the Towers of Hanoi using stacks
-*/
+Moving disks from a tower to the other using only one another tower 
+and in repecting the order. This order requires the disk above is
+the smaller one
+1		 _|_					|						|
+2       __|__					|						|
+3      ___|___					|						|
+4     ____|____					|						|
+.		  |						|						|
+.		  |						|						|
+.		  |						|						|
+n ________|_________			|						|
+__________|_____________________|_______________________|___________
+Tower:  origin				  buffer			   destination
 
-/*
+No disk, n = 0		=>	done!
+One disk, n = 1		=>	move the disk from origin to destinat ion
+Two disks, n = 2	=>	move disk 1 to buffer 
+						move disk 2 to destination
+						move disk from buffer to destination
+Three disks, n = 3	=>	move disks 1 and 2 to buffer (as before)
+						move disk 3 to destination
+						move disks from buffer to destination
+General case, n	> 3	=>	move disks 1 ... n-1 to buffer (as before)
+						move disk n to destination
+						move disks from buffer to destination
+*/
+class Tower {
+private:
+	std::stack<int> disks;
+	std::string _name;
+public:
+	Tower(std::string name) {
+		_name = name;
+	}
+	auto pop() {
+		auto top = disks.top();
+		disks.pop();
+		return top; 
+	}
+	auto top() {
+		return disks.top();
+	}
+	auto push(int top) {
+		disks.push(top);
+		return;
+	}
+	auto name() {
+		return _name;
+	}
+};
+
+auto moveTop(Tower& origin, Tower& destination) {
+	int top = origin.pop();
+	destination.push(top);
+	std::cout << "	Move disk " << top << " from " << origin.name()
+			  << " to " << destination.name() << std::endl;
+}
+
+auto moveDisks(int n, Tower& origin, Tower& buffer, Tower& destination) {
+	/* Count the number of moves */
+	auto static count = 0;
+
+	/* Base case */
+	if (n <= 0) return;
+
+	/* Move disks 1 ... n-1 from origin to buffer */
+	moveDisks(n - 1, origin, destination, buffer);
+
+	/* Move disk n from orgine to destination */
+	++count;
+	std::cout << "Move " << count << std::endl;
+	moveTop(origin, destination);
+
+	/* Move disks 1 ... n-1 from buffer to destination */
+	moveDisks(n - 1, buffer, origin, destination);
+
+	return;
+}
+
+/* 
 Sort the stack in acceding order (with biggest items on top)
 using at most one additional stack to hold items, but not copy
 items into array for example.
@@ -551,5 +628,11 @@ auto binarySearchRecursive(std::vector<int>& a, int x, int low, int high) {
 
 int main()
 {
+	Tower origin("origin"), buffer("buffer"), destination("destination");
+	int n = 7;
+	for (auto disk = n; disk > 0; --disk) {
+		origin.push(disk);
+	}
+	moveDisks(n, origin, buffer, destination);
 	return 0;
 }
