@@ -548,14 +548,12 @@ public:
 		return _name;
 	}
 };
-
 auto moveTop(Tower& origin, Tower& destination) {
 	int top = origin.pop();
 	destination.push(top);
 	std::cout << "	Move disk " << top << " from " << origin.name()
 			  << " to " << destination.name() << std::endl;
 }
-
 auto moveDisks(int n, Tower& origin, Tower& buffer, Tower& destination) {
 	/* Count the number of moves */
 	auto static count = 0;
@@ -578,13 +576,32 @@ auto moveDisks(int n, Tower& origin, Tower& buffer, Tower& destination) {
 }
 
 /* 
-Sort the stack in acceding order (with biggest items on top)
+Sort the stack in acceding order (with biggest items on top) 
 using at most one additional stack to hold items, but not copy
 items into array for example.
 The stack supports push, pop, peek and isEmpty operations.
-*/
+Create a new stack, pop every element in the old stack,
+find the appropriate position of this element in the new stack then insert
+*/                                                       
+auto sort(std::stack<int>* oldStack) {
+	auto newStack = new std::stack<int>();
+	while (!oldStack->empty()) {
+		/* Pop an element in the old stack */
+		auto tmp = oldStack->top();
+		oldStack->pop();
+		/* Pop elements in the new stack and push them to the old stack
+		   until the appropriate position and push the tmp */
+		while (!newStack->empty() && newStack->top() > tmp) {
+			oldStack->push(newStack->top());
+			newStack->pop();
+		}
+		/* Push tmp into the new stack */
+		newStack->push(tmp);
+	}
+	return newStack;
+}
 
-/*
+/*                                                            
 Iterate through nodes in a graph using Depth First Search (DFS)
 and Breadth First Search (BFS)
 Hint: Use queue to implement BFS
@@ -628,11 +645,10 @@ auto binarySearchRecursive(std::vector<int>& a, int x, int low, int high) {
 
 int main()
 {
-	Tower origin("origin"), buffer("buffer"), destination("destination");
-	int n = 7;
-	for (auto disk = n; disk > 0; --disk) {
-		origin.push(disk);
-	}
-	moveDisks(n, origin, buffer, destination);
+	auto s = std::stack<int>();
+	for (auto& item : { 2, 3, 4, 5, 6, 1, 2, 1 })
+		s.push(item);
+	auto sortedS = sort(&s);
+	std::cout << sortedS->top() << std::endl;
 	return 0;
 }
